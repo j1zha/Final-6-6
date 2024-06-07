@@ -1,0 +1,35 @@
+/* exploratory_analysis.css */
+#ExploratoryAnalysis {
+    background-color: #e0f7fa;  /* Maintaining the same blue background */
+    color: #01579b;               /* Ensuring text color is black */
+    padding: 20px;              /* Consistent padding */
+}
+
+#ExploratoryAnalysis h2 {
+    text-align: center;         /* Center-aligning all h2 headers */
+    color: #01579b;               /* Black color for visibility */
+}
+
+#ExploratoryAnalysis img {
+    display: block;             /* Ensures the image is block level */
+    margin: auto;               /* Centers the image horizontally */
+}
+
+
+.write-up-section {
+    background-color: white;
+    color: #1f77b4;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0f7fa;
+    text-align: center;
+}
+

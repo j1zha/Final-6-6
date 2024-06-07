@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US State Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <h1>How Does Medical Resources Per Capita Affect Death Rate of Covid-19</h1>
+    
+    <!-- New Tab Structure Added -->
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'HistoricalContext')">Historical Context</button>
+        <button class="tablinks" onclick="openTab(event, 'ExploratoryAnalysis')">Exploratory Analysis</button>
+        <button class="tablinks" onclick="openTab(event, 'WhatIf')">What if?</button>
+        <button class="tablinks" onclick="openTab(event, 'Project Takeaway')">Project Takeaway</button>
+    </div>
+
+
+    <div id="HistoricalContext" class="tabcontent">
+        <h2>Historical Context of Covid-19 in the United States</h2>
+        <p>
+            The Covid-19 pandemic has had a profound impact on health, economies, and daily life across the globe. In the United States, the virus has triggered widespread changes in how healthcare resources are allocated and has highlighted the critical need for timely and effective medical responses. This section provides a visual exploration of Covid-19's spread and its effects across different states over time.
+        </p>
+        <p>
+            Below is an interactive map that illustrates the progression of Covid-19 cases and deaths across the United States. The map uses color gradients to depict the severity of the outbreak in each state at various points throughout the pandemic. Users can interact with the map to view specific data points and trends, offering insights into how different regions have been affected over time.
+        </p>
+        <!-- Existing content goes here -->
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+        <div id="timeline">
+            <input type="range" id="time-slider" min="0" max="418" step="1">
+            <span id="current-date"></span>
+        </div>
+        <div id="piechart-tooltip" class="hidden">
+            <svg id="piechart" width="300" height="300"></svg>
+            <div id="piechart-data"></div>
+        </div>
+        <div id="legend-container">
+            <svg id="legend"></svg>
+        </div>    
+        
+    </div>
+
+
+
+
+
+    <div id="ExploratoryAnalysis" class="tabcontent">
+        <div class="write-up-section">
+            <h2>Introduction</h2>
+            <p>
+                During the Covid-19 pandemic, discussions often centered on the weaknesses of the US medical system, particularly the shortage of hospital beds, physicians, and healthcare expenditures. This analysis aims to explore the relationship between the death rate and the availability of beds, physicians, and health expenditures across different states. Understanding these relationships can help identify areas for improvement and ensure better preparedness for future healthcare crises.
+            </p>
+            <p>
+                This section provides an exploratory analysis of the data to investigate whether a significant relationship exists between the death rate per 100,000 residents and the three variables: beds per 1,000 residents, physicians per 1,000 residents, and health expenditure per capita. Scatter plots are used to visually inspect these relationships before performing a detailed regression analysis.
+            </p>
+            
+            <h2>Data Overview</h2>
+            <div id="scatter-plots">
+                <img src="death_vs_beds.png" alt="Death per 100000 vs. Beds per 1000" width="500" height="300">
+                <img src="death_vs_physicians.png" alt="Death per 100000 vs. Physicians per 1000" width="500" height="300">
+                <img src="death_vs_health_expenditure.png" alt="Death per 100000 vs. Health Expenditure per Capita" width="500" height="300">
+            </div>
+            <p>
+                The scatter plots above show the relationships between the death rate per 100,000 residents and each of the three variables. From these plots, it is evident that no clear trend can be observed, indicating that a single-variable regression might not be sufficient. Therefore, a multilinear regression analysis will be conducted using all three variables.
+            </p>
+            
+            <h2>Multilinear Regression Analysis</h2>
+            <h3>Regression Results for All Three Variables</h3>
+            <pre id="regression-results1"></pre>
+            <p>
+                Analysis:
+                <ul>
+                    <li><strong>Beds per 1000:</strong> The coefficient is not statistically significant, suggesting that the number of beds per 1000 residents does not have a significant impact on the death rate.</li>
+                    <li><strong>Health expenditure per capita:</strong> The coefficient is also not statistically significant, indicating that health expenditure per capita does not have a significant impact on the death rate.</li>
+                    <li><strong>Physicians per 1000:</strong> The coefficient is statistically significant, indicating that an increase in the number of physicians per 1000 residents is associated with a decrease in the death rate.</li>
+                </ul>
+                Based on these results, the variable 'beds per 1000' will be excluded for a more streamlined analysis.
+            </p>
+            
+            <h3>Regression Results for Two Variables</h3>
+            <pre id="regression-results2"></pre>
+            <p>
+                Analysis:
+                <ul>
+                    <li><strong>Health expenditure per capita:</strong> The coefficient is not statistically significant, suggesting that health expenditure per capita does not have a significant impact on the death rate.</li>
+                    <li><strong>Physicians per 1000:</strong> The coefficient remains statistically significant, indicating that an increase in the number of physicians per 1000 residents is associated with a decrease in the death rate.</li>
+                </ul>
+            </p>
+            
+            <h2>Final Equation</h2>
+            <p>
+                The final regression equation is given by:
+                <pre>death per 100000 = 76.5784 + 0.0019 * health expenditure per capita - 0.6299 * physicians per 1000</pre>
+                Interpretation:
+                <ul>
+                    <li><strong>Constant (76.5784):</strong> The baseline death rate per 100,000 residents when the other variables are zero.</li>
+                    <li><strong>Health expenditure per capita (0.0019):</strong> An increase of $1 in health expenditure per capita is associated with an increase of 0.0019 in the death rate per 100,000 residents, though this relationship is not statistically significant.</li>
+                    <li><strong>Physicians per 1000 (-0.6299):</strong> An increase of one physician per 1,000 residents is associated with a decrease of 0.6299 in the death rate per 100,000 residents.</li>
+                </ul>
+            </p>
+
+
+            <h2>3D Scatter Plot with Regression Plane</h2>
+            <div id="3d-scatter-plot">
+                <img src="3d_scatter_with_regression_bright.png" alt="3D Scatter Plot with Regression Plane" width="800" height="600">
+            </div>
+            <p>
+                The 3D scatter plot above visually demonstrates the relationship between the death rate per 100,000 residents and the two significant variables: physicians per 1,000 residents and health expenditure per capita. The regression plane highlights the trend identified in the data. Specifically, we can observe that:
+                <ul>
+                    <li>As the number of physicians per 1,000 residents increases, the death rate tends to decrease, which is consistent with the negative coefficient found in the regression analysis.</li>
+                    <li>The effect of health expenditure per capita is less clear, as the coefficient was not statistically significant in our regression model. This indicates that variations in health expenditure per capita do not consistently correlate with changes in the death rate across different states.</li>
+                </ul>
+                Overall, this analysis underscores the importance of increasing the availability of physicians to potentially reduce the death rate in future healthcare crises. Policymakers should consider strategies to increase the number of practicing physicians, especially in underserved areas, as part of their efforts to strengthen the healthcare system's resilience.
+            </p>
+
+        </div>
+    </div>
+
+
+    <div id="WhatIf" class="tabcontent">
+        <h2>What if Analysis</h2>
+        <p>
+            In The third tab, the user can input changes to the two explanatory variables in our model to see the potential change in death rates across the four states, which is demonstrated by a histogram here. This educate them about how a change to the availability in medical resources could help saving many lives.
+        </p>
+        <div>
+            <label for="physiciansChange">Change in physicians per 1000:</label>
+            <input type="number" id="physiciansChange" placeholder="Enter percentage...">
+        </div>
+        <div>
+            <label for="healthExpenditureChange">Change in health expenditure per capita:</label>
+            <input type="number" id="healthExpenditureChange" placeholder="Enter percentage...">
+        </div>
+        <button onclick="calculateNewDeathRates()">Calculate New Death Rates</button>
+        <div id="deathRateResults"></div>
+        <svg id="deathRatePlot"></svg>
+    </div>
+    
+    
+    <div id="Project Takeaway" class="tabcontent">
+        <div class="project-takeaway-content">
+            <h2>Takeaway</h2>
+            <h3>Youtube Link:https://youtu.be/dEc6gbjdOzk</h3>
+            <p>Our project meticulously tracks the journey of medical resource allocation and its critical impact on death rates during the COVID-19 pandemic. We start with a detailed and intuitive mapping of data that reveals, in real-time, how disparities in healthcare resources are linked to varying survival rates across the United States. This visualization not only underscores the fundamental relationship between healthcare accessibility and outcomes but does so through a lens that is both personal and urgent.</p>
+            <p>While our data initially suggests that higher health expenditure per capita might directly correlate with better outcomes, our deeper analysis reveals a more nuanced truth. The presence of physicians, rather than financial expenditure alone, emerges as the decisive factor in mitigating mortality rates. This surprising twist challenges the prevailing assumption that monetary investment in healthcare is the sole driver of better patient outcomes, highlighting a critical gap in resource allocation strategies.</p>
+            <p>Our interactive models in the third tab bring this data to life, allowing users to manipulate variables like physician availability and health expenditure. This not only personalizes the experience but also emotionally engages the user by demonstrating the potential real-world impact of these changes. It's a powerful demonstration of how even small increases in medical staffing could save countless lives, making the abstract data strikingly concrete and relatable.</p>
+            <p>Ultimately, the one thing that everyone should learn from our project is the transformative power of accessible medical care. Our project succeeds in explaining this by employing rigorous mathematical and statistical analyses, combined with dynamic visualizations that illustrate the stark differences in outcomes. We go beyond merely presenting data; we tell a story that resonates on a personal level, emphasizing that behind every data point is a human life that could be dramatically affected by policy decisions. This narrative not only informs but also inspires action, demonstrating that improving physician accessibility is not just a medical imperative but a moral one as well.</p>
+            
+        </div>
+    </div>
+    
+
+
+    
+    <script src="script.js"></script>
+
+
+
+
+</body>
+</html>
+
